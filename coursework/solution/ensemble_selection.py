@@ -54,7 +54,6 @@ class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
         self.random_state = random_state
 
     def _validate_inputs(self, X, y):
-        """Validates input arguments according to specification rules."""
         # Validate cv
         if not isinstance(self.cv, (int, np.integer)):
             raise TypeError("cv must be an integer.")
@@ -97,7 +96,6 @@ class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
             raise ValueError("X and y must have equal lengths.")
 
     def _compute_score(self, y_true, probas):
-        """Calculates out-of-fold score for a given probability matrix."""
         if self.metric == "accuracy":
             # Class with highest probability; tie goes to lower column index (np.argmax)
             #np.argmax used here to make array of indices of max value at each row
@@ -110,7 +108,6 @@ class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
             raise ValueError(f"Unsupported metric: {self.metric}")
 
     def _is_strictly_better(self, new_score, current_score):
-        """Checks if new_score is a strict improvement over current_score."""
         #using strict inequalities ensures a tiebreaker to favour the classifier occurring earlier
         if self.metric == "accuracy":
             return new_score > current_score
@@ -118,7 +115,6 @@ class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
             return new_score < current_score
 
     def fit(self, X, y):
-        """Fits greedy ensemble selector on training data."""
         self._validate_inputs(X, y)
 
         #making an array of y, making it into an array of class labels based on unique values in y_arr
@@ -234,7 +230,6 @@ class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
         return self
 
     def predict_proba(self, X):
-        """Predicts class probabilities for X using selected ensemble."""
         if not hasattr(self, "estimators_"):
             raise NotFittedError("This GreedyEnsembleSelector instance is not fitted yet.")
 
@@ -243,7 +238,6 @@ class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
         return np.mean(probas_list, axis=0)
 
     def predict(self, X):
-        """Predicts class labels for X using mean predicted probabilities."""
         probas = self.predict_proba(X)
         pred_indices = np.argmax(probas, axis=1)
         return self.classes_[pred_indices]
