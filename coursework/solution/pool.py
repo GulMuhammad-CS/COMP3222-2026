@@ -42,16 +42,20 @@ def generate_oof_probas(
     scores : ndarray of shape (n_estimators,)
         Out-of-fold accuracy score of each classifier.
     """
+    # making y a numpy array
     y_arr = np.asarray(y)
+    # getting an array of each unique class label
     classes_all = np.unique(y_arr)
+    # getting number of different classes, cases, and estimators
     n_classes = len(classes_all)
     n_cases = len(y_arr)
     n_estimators = len(estimators)
 
-    # Initialize container for out-of-fold class probabilities
+    # Initialize container for out-of-fold class probabilities as an array of zeroes
     oof_probas = np.zeros((n_estimators, n_cases, n_classes), dtype=np.float64)
 
-    # Classification CV strategy: StratifiedKFold maintains class ratio across folds
+    # Classification CV strategy: StratifiedKFold maintains class ratio across folds for testing and training
+    #uses cv as seed for fold size, and sets random state
     if isinstance(cv, int):
         cv_splitter = StratifiedKFold(
             n_splits=cv,
