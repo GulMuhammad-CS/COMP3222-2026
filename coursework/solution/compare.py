@@ -2,7 +2,10 @@ import csv
 import numpy as np
 from sklearn.base import clone
 from sklearn.metrics import accuracy_score
-
+import sys
+from pathlib import Path
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.append(str(parent_dir))
 from part3_setup import (
     CV,
     DATASETS,

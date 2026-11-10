@@ -5,7 +5,7 @@ from sklearn.model_selection import StratifiedKFold
 
 
 def _safe_indexing(data, indices):
-    """Safely index arrays, lists, pandas DataFrames, or Series by positional indices."""
+    #Safely index arrays, lists, pandas DataFrames, or Series by positional indices
     if hasattr(data, "iloc"):
         return data.iloc[indices]
     return np.asarray(data)[indices]
@@ -18,30 +18,6 @@ def generate_oof_probas(
     cv=5,
     random_state=None,
 ):
-    """Generates out-of-fold class probabilities and accuracy scores for a list of classifiers.
-
-    Parameters
-    ----------
-    estimators : sequence of estimator objects
-        List or sequence of scikit-learn compatible classifier models.
-    X : array-like or pandas DataFrame of shape (n_cases, n_features)
-        Training feature matrix.
-    y : array-like or pandas Series of shape (n_cases,)
-        Target class labels.
-    cv : int or CV generator, default=5
-        Number of folds for StratifiedKFold CV, or a custom CV splitter instance.
-    random_state : int, RandomState instance, or None, default=None
-        Controls fold assignment shuffling. Pass an int for reproducible folds, or
-        None to leave assignment unseeded.
-
-    Returns
-    -------
-    oof_probas : ndarray of shape (n_estimators, n_cases, n_classes)
-        Out-of-fold predicted class probabilities for each classifier. Columns follow
-        the order of np.unique(y).
-    scores : ndarray of shape (n_estimators,)
-        Out-of-fold accuracy score of each classifier.
-    """
     # making y a numpy array
     y_arr = np.asarray(y)
     # getting an array of each unique class label

@@ -7,38 +7,6 @@ from solution.pool import generate_oof_probas
 
 
 class GreedyEnsembleSelector(ClassifierMixin, BaseEstimator):
-    """Greedy forward ensemble selection algorithm.
-
-    Selects a subset of classifiers from a pool by iteratively adding the classifier
-    that yields the greatest improvement in out-of-fold performance.
-
-    Parameters
-    ----------
-    estimators : list of tuple (str, estimator)
-        List of (name, estimator) pairs.
-    cv : int, default=5
-        Number of cross-validation folds. Must be an integer >= 2.
-    max_ensemble_size : int or None, default=None
-        Maximum number of classifiers to include in the ensemble.
-    metric : str, default="accuracy"
-        Metric to optimize. Supported values: "accuracy", "log_loss".
-    random_state : int, RandomState instance, or None, default=None
-        Controls CV fold assignment.
-
-    Attributes
-    ----------
-    classes_ : ndarray of shape (n_classes,)
-        Class labels sorted as np.unique(y).
-    selected_indices : list of int
-        Indices in `estimators` of selected classifiers in order of selection.
-    selected_names : list of str
-        Names of selected classifiers in order of selection.
-    selection_scores : list of float
-        Out-of-fold score after each classifier addition.
-    estimators_ : list of estimator
-        Fitted clones of selected classifiers, in selection order.
-    """
-
     def __init__(
         self,
         estimators,
