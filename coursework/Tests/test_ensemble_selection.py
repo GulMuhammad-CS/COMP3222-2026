@@ -17,7 +17,7 @@ def sample_pool():
 
 
 def test_not_fitted_error_raised_before_fit(sample_pool):
-    """Calling predict or predict_proba before fit must raise NotFittedError."""
+    #Calling predict or predict_proba before fit must raise NotFittedError.
     selector = GreedyEnsembleSelector(estimators=sample_pool)
     X = np.random.randn(10, 2)
 
@@ -29,7 +29,7 @@ def test_not_fitted_error_raised_before_fit(sample_pool):
 
 
 def test_fit_returns_self_and_populates_fitted_attributes(sample_pool):
-    """Verifies fit returns self and populates required fitted attributes[cite: 3, 4]."""
+    #Verifies fit returns self and populates required fitted attributes[cite: 3, 4].
     X = np.random.randn(40, 4)
     y = np.array([0, 1] * 20)
 
@@ -54,7 +54,7 @@ def test_fit_returns_self_and_populates_fitted_attributes(sample_pool):
 
 
 def test_max_ensemble_size_limit(sample_pool):
-    """Ensures selection stops when max_ensemble_size is reached."""
+    #Ensures selection stops when max_ensemble_size is reached.
     X = np.random.randn(50, 4)
     y = np.array([0, 1] * 25)
 
@@ -67,7 +67,7 @@ def test_max_ensemble_size_limit(sample_pool):
 
 
 def test_metric_support_accuracy_and_log_loss(sample_pool):
-    """Verifies support for both 'accuracy' and 'log_loss' metrics[cite: 4]."""
+    #Verifies support for both 'accuracy' and 'log_loss' metrics[cite: 4].
     X = np.random.randn(40, 4)
     y = np.array([0, 1] * 20)
 
@@ -99,7 +99,7 @@ def test_tie_breaker_favors_earliest_estimator():
 
 
 def test_invalid_arguments_raise_errors(sample_pool):
-    """Invalid arguments must raise ValueError or TypeError."""
+    #Invalid arguments must raise ValueError or TypeError.
     X = np.ones((20, 2))
     y = np.array([0, 1] * 10)
 

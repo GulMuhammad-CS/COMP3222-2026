@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
-
+from sklearn.dummy import DummyClassifier
+from sklearn.tree import DecisionTreeClassifier
 from solution.pool import generate_oof_probas
 
 
@@ -40,3 +41,26 @@ def test_oof_predictions_are_genuinely_out_of_fold():
 
     assert oof_probas.shape == (1, 50, 2)
     assert scores.shape == (1,)
+
+
+def test_generate_oof_probas_output_shapes():
+    #Verifies that oof_probas and scores match the required output dimensions.
+    n_cases = 40
+    n_features = 4
+    n_classes = 3
+
+    X = np.random.randn(n_cases, n_features)
+    y = np.array([0, 1, 2] * 13 + [0])  # Exactly 40 cases across 3 classes
+
+    estimators = [
+        DummyClassifier(strategy="prior"),
+        DecisionTreeClassifier(max_depth=2, random_state=0),
+        DecisionTreeClassifier(max_depth=4, random_state=0),
+    ]
+    n_estimators = len(estimators)
+
+    oof_probas, scores = generate_oof_probas(estimators, X, y, cv=4, random_state=42)
+
+    # Verify exact tensor shapes
+    assert oof_probas.shape == (n_estimators, n_cases, n_classes)
+    assert scores.shape == (n_estimators,)

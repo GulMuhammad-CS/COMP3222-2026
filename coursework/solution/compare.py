@@ -96,6 +96,9 @@ def run_comparison():
             random_state=RANDOM_STATE,
         )
         selector_acc.fit(X_train, y_train)
+        print("\nAcc Selection Sequence:")
+        for step, (Sname, score) in enumerate(zip(selector_acc.selected_names, selector_acc.selection_scores), 1):
+            print(f"Step {step}: Added '{Sname}' -> OOF Accuracy: {score:.4f}")
         greedy_acc_pred = selector_acc.predict(X_test)
         greedy_acc = accuracy_score(y_test, greedy_acc_pred)
         n_selected_acc = len(selector_acc.selected_indices)
@@ -109,6 +112,9 @@ def run_comparison():
             random_state=RANDOM_STATE,
         )
         selector_log.fit(X_train, y_train)
+        print("\nLog Selection Sequence:")
+        for step, (Lname, Lscore) in enumerate(zip(selector_log.selected_names, selector_log.selection_scores), 1):
+            print(f"Step {step}: Added '{Lname}' -> OOF Accuracy: {Lscore:.4f}")
         greedy_log_pred = selector_log.predict(X_test)
         greedy_log_loss = accuracy_score(y_test, greedy_log_pred)
         n_selected_log = len(selector_log.selected_indices)
